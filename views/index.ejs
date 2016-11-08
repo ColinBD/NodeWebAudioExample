@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	You should be able to hear an audio sample playing <br><br>
+	<div id='play'> Play </div> <br>
+	<div id ='stop'> Stop </div>
+
+	<script>
+	document.getElementById('play').addEventListener('click', function () {
+		//load the sample by calling the load sound function
+		loadSound();
+	});
+
+	document.getElementById('stop').addEventListener('click', function() {
+		//alert('stop clicked');
+		sourceNode.stop(0);
+		sourceNode.disconnect();
+	});
+	//initial set-u pof the web audio environment
+	var AudioContext = window.AudioContext;
+	var context = new AudioContext();
+	var mySoundBuffer = null;
+
+
+	//define the load sound function
+	function loadSound(){
+		var request = new XMLHttpRequest();
+		request.open("GET", "music/arny.mp3", true); //path to audio file
+		request.responseType = "arraybuffer"; //reads it in as binary data
+		request.onload = function() {
+			context.decodeAudioData(request.response, function (buffer) {
+				mySoundBuffer = buffer;
+				play();
+			});
+		};
+		request.send();
+	};
+
+	function play(){
+		sourceNode = context.createBufferSource();
+		sourceNode.buffer = mySoundBuffer;
+		sourceNode.connect(context.destination);
+		sourceNode.start(0);
+	};
+
+
+	</script>
+</html>
