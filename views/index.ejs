@@ -24,7 +24,7 @@
 	//define the load sound function
 	function loadSound(){
 		var request = new XMLHttpRequest();
-		request.open("GET", "music/arny.mp3", true); //path to audio file
+		request.open("GET", "/music/arny.mp3", true); //path to audio file
 		request.responseType = "arraybuffer"; //reads it in as binary data
 		request.onload = function() {
 			context.decodeAudioData(request.response, function (buffer) {
